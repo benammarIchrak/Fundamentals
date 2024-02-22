@@ -1,13 +1,20 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule, RouterOutlet } from '@angular/router';
+import { Page1Component } from './Routing/page1/page1.component';
+import { Page2Component } from './Routing/page2/page2.component';
+import { Page3Component } from './Routing/page3/page3.component';
+import { CounterComponent } from './Signals/counter/counter.component';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+    selector: 'app-root',
+    standalone: true,
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss',
+    imports: [RouterOutlet, Page1Component, Page2Component, Page3Component, CounterComponent,RouterOutlet, RouterModule]
 })
 export class AppComponent {
   title = 'Fundamentals';
+  itemImageUrl = '../favicon.ico';
+
 }
+  

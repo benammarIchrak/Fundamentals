@@ -1,0 +1,12 @@
+<div class="counter-container">
+    <button (click)="decrement()">-</button>
+    <span>{{ counter() }}</span>
+    <button (click)="increment()">+</button>
+   <!--  <input [(ngModel)]="hello"> -->
+</div>
+
+<div class="task-container">
+    <div class="task-item" *ngFor="let msg of message()">
+        <p> {{ msg }}</p>
+    </div>
+</div>
