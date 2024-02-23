@@ -18,8 +18,8 @@ export class CounterComponent implements DoCheck {
   counter = signal(0);
 
   message = signal<string[]>([]);
-
-   doubleCounter = computed(() => this.counter() );
+//computed signal cannot set directly its value because it depends on onther signals (counter)
+  doubleCounter = computed(() => this.counter() );
 
   increment() {
     //this.counter.set(this.counter() + 1);

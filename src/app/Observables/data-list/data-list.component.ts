@@ -1,22 +1,48 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, ViewChild, inject, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, inject, viewChild } from '@angular/core';
 import { rejects } from 'assert';
 import { ToastrService } from 'ngx-toastr';
 import { resolve } from 'path';
-import { Observable, filter, from, fromEvent, map, of } from 'rxjs';
+import { Observable, Subject, filter, from, fromEvent, map, of } from 'rxjs';
 import { NewTaskComponent } from "../new-task/new-task.component";
 import { ShowTaskComponent } from "../show-task/show-task.component";
 
 @Component({
-    selector: 'app-data-list',
-    standalone: true,
-    templateUrl: './data-list.component.html',
-    styleUrl: './data-list.component.scss',
-    imports: [CommonModule, NewTaskComponent, ShowTaskComponent]
+  selector: 'app-data-list',
+  standalone: true,
+  templateUrl: './data-list.component.html',
+  styleUrl: './data-list.component.scss',
+  imports: [CommonModule, NewTaskComponent, ShowTaskComponent]
 })
-export class DataListComponent implements AfterViewInit {
+export class DataListComponent implements AfterViewInit, OnInit {
 
   constructor(private _toastrService: ToastrService) { }
+  ngOnInit(): void {
+ /*    let observable1 = new Observable((val) => {
+      val.next(Math.random());
+    }); */
+
+     let obs = of([1,2,3], true, new Object());
+     let obs_from = from([1,2,3]);
+     obs.subscribe((val)=>{
+        console.log('of: ',val)
+     })
+     obs_from.subscribe((val)=>{
+      console.log('from: ',val)
+   })
+  /*   let subject1 = new Subject<any>();
+    //subscriber1
+    subject1.subscribe((value) => {
+      console.log(value)
+    });
+
+    //subscriber2
+    subject1.subscribe((value) => {
+      console.log(value)
+    });
+    subject1.next(Math.random());
+     */
+  }
   ngAfterViewInit(): void {
   }
 

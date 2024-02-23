@@ -15,12 +15,15 @@ export const AuthGuard = () => {
         router.navigateByUrl('')
         return false
     }
+    if(!auth.getIsAuthorized()) {
+        return false
+    }
     return true
 }
 export const routes: Routes = [
     { path: '', component: Page1Component },
     { path: 'page1', component: Page1Component },
     { path: 'page2', component: Page2Component, canActivate: [AuthGuard] },
-    { path: 'page3', component: Page3Component, canActivate: [AuthGuard] },
+    { path: 'page3', component: Page3Component, canActivate: [AuthGuard], canDeactivate:[AuthGuard] },
     { path: '**', component: NotFoundPageComponent }
 ];

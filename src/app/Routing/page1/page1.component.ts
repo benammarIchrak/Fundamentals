@@ -20,20 +20,16 @@ export class Page1Component {
   /**
    *
    */
-  private authService: AuthService;
-  private toastService: ToastrService
-  constructor(authservice: AuthService, toastService: ToastrService) {
-   this.authService = authservice;
-   this.toastService = toastService;
+  constructor(private _authservice: AuthService, private _toastService: ToastrService) {
   }
   login(): void{
-    this.authService.login();
-    this.toastService.success('User Logged In successfully!')
+    this._authservice.login();
+    this._toastService.success('User Logged In successfully!')
   }
 
   logout(): void{
-    this.authService.logout();
-    this.toastService.success('User Logged Out successfully!')
+    this._authservice.logout();
+    this._toastService.success('User Logged Out successfully!')
 
   }
 
