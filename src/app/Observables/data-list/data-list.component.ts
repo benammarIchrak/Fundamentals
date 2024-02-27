@@ -3,7 +3,7 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, inject, viewCh
 import { rejects } from 'assert';
 import { ToastrService } from 'ngx-toastr';
 import { resolve } from 'path';
-import { Observable, Subject, filter, from, fromEvent, map, of } from 'rxjs';
+import { AsyncSubject, BehaviorSubject, Observable, ReplaySubject, Subject, delay, filter, from, fromEvent, map, of } from 'rxjs';
 import { NewTaskComponent } from "../new-task/new-task.component";
 import { ShowTaskComponent } from "../show-task/show-task.component";
 
@@ -15,33 +15,129 @@ import { ShowTaskComponent } from "../show-task/show-task.component";
   imports: [CommonModule, NewTaskComponent, ShowTaskComponent]
 })
 export class DataListComponent implements AfterViewInit, OnInit {
-
+value: any = 100;
   constructor(private _toastrService: ToastrService) { }
-  ngOnInit(): void {
- /*    let observable1 = new Observable((val) => {
+  async ngOnInit(): Promise<void> {
+    //#region Subject
+    let observable1 = new Observable((val) => {
       val.next(Math.random());
-    }); */
-
-     let obs = of([1,2,3], true, new Object());
-     let obs_from = from([1,2,3]);
-     obs.subscribe((val)=>{
-        console.log('of: ',val)
-     })
-     obs_from.subscribe((val)=>{
-      console.log('from: ',val)
-   })
-  /*   let subject1 = new Subject<any>();
+    });
+    observable1.subscribe((val) => {
+      console.log('from observable1', val)
+    })
+    observable1.subscribe((val) => {
+      console.log('from observable1', val)
+    })
+    //Subject with 2 Subscribers
+    let subject1 = new Subject<any>();
     //subscriber1
     subject1.subscribe((value) => {
-      console.log(value)
+      console.log('from subject', value)
     });
 
     //subscriber2
     subject1.subscribe((value) => {
-      console.log(value)
+      console.log('from subject', value)
     });
     subject1.next(Math.random());
+
+    // Create Observable through: OF/FROM
+    /*   let obs = of([1,2,3], true, new Object());
+      let obs_from = from([1,2,3]);
+      obs.subscribe((val)=>{
+         console.log('of: ',val)
+      })
+      obs_from.subscribe((val)=>{
+       console.log('from: ',val)
+    }) 
+    //#endregion
+  //#region BehaviourSubject
+    // BehaviourSubject: Hold initial or last emitted value for new subscriber
+    /*     let bSubject = new BehaviorSubject(10);
+        // subscriber1
+        bSubject.subscribe((val) => {
+          console.log('Subscriber 1', val)
+        });
+        // subscriber2
+        bSubject.subscribe((val) => {
+          console.log('Subscriber 2', val)
+        });
+        // emit new value
+        bSubject.next(200);
+        // new subscriber 3
+        bSubject.subscribe((val) => {
+          console.log('Subscriber 3', val)
+        });
+        bSubject.next(333); */
+
+    //#endregion
+    //#region ReplaySubject
+    /*   let rSubject = new ReplaySubject(2,4000);
+      rSubject.next(10);
+      rSubject.next(20);
+      rSubject.next(30)
+      rSubject.next(40);
+  
+      // subscriber1
+      rSubject.subscribe((val) => {
+        console.log(val);
+      });
+      // after 2 seconds :we found (2=bufferSize) values in the ReplaySubject
+      setTimeout(() => {
+        console.log('Waiting for 2 seconds')  
+        rSubject.subscribe((val) => {
+          console.log(val);
+        });
+      }, 2000);
+      // after 5 seconds :no value in the ReplaySubject after windowTime = 4 seconds
+      setTimeout(() => {
+        console.log('Waiting for 5 seconds')  
+        rSubject.subscribe((val) => {
+          console.log(val);
+        });
+      }, 5000);
+       */
+    //#endregion
+    //#region AsyncSubject
+    // The async subject sends the last emitted value to all its subscribers if the complete method is called
+    /*     let asyncSubject = new AsyncSubject();
+        asyncSubject.next(10);
+        asyncSubject.next(20);
+        asyncSubject.next(30)
+        asyncSubject.next(40);
+        asyncSubject.complete();
+        // subscriber1
+        asyncSubject.subscribe((val) => {
+          console.log('subscriber1',val);
+        });
+    
+        asyncSubject.next(40);
+        asyncSubject.complete();
+    
+        asyncSubject.subscribe((val) => {
+          console.log('subscriber2',val);
+        });
      */
+    //#endregion 
+    //#region Promise
+    /*    let promisedData = new Promise((resolve, reject) => {
+         // Simulate fetching data asynchronously
+         setTimeout(() => {
+           const data =false;
+           // Check if data was fetched successfully
+           if (data) {
+             // Resolve the Promise with the fetched data
+             resolve(data);
+           } else {
+             // Reject the Promise with an error message
+             reject('Failed to fetch data');
+           }
+         }, 1000); // Simulate a delay of 1 second
+       });
+       promisedData.then((data)=>{
+         console.log(data);
+       }); */
+    //#endregion
   }
   ngAfterViewInit(): void {
   }
@@ -61,9 +157,9 @@ export class DataListComponent implements AfterViewInit, OnInit {
       setTimeout(() => { observer.complete() }, 8000)
     }) */
   //myObservable = of(this.array1, this.array2, true, 'hello');
-  promisedData = new Promise((resolve, reject) => {
-    resolve([1, 2, 3])
-  })
+  /*   promisedData = new Promise((resolve, reject) => {
+      resolve([1, 2, 3])
+    }) */
   myObservable = from([1, 2, 3, 4, 5]).pipe(
     map((val) => {
       return val * 11
